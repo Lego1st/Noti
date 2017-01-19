@@ -4,10 +4,27 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
   Platform,
 } from 'react-native';
-
+import * as API from  './notificationUtils'
 import OneSignal from 'react-native-onesignal';
+
+class Button extends React.Component {
+  render() {
+    return (
+      <TouchableHighlight
+        underlayColor={'black'}
+        style={styles.button}
+        onPress={this.props.onPress}>
+        <Text style={styles.buttonLabel}>
+          {this.props.label}
+        </Text>
+      </TouchableHighlight>
+    );
+  }
+}
+
 
 class App extends Component {
 
@@ -31,15 +48,37 @@ class App extends Component {
 
   }
 
+  unSub() {
+    OneSignal.setSubscription(false);
+    console.log('unsub');
+  }
+
+  Sub() {
+    OneSignal.setSubscription(true);
+    console.log('sub');
+  }
+
+  upAppId() {
+    API.upAppId('admin@orm.vn','1b4727a96eb05921e68228341642b529','xyzxxx','108')
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to the OneSignal Example!
-        </Text>
-        <Text style={styles.instructions}>
-          Using {Platform.OS}? Cool.
-        </Text>
+        <Button
+          onPress={this.unSub}
+          label="unSubcribe"
+        />
+
+        <Button
+          onPress={this.Sub}
+          label="Subcribe"
+        />
+
+        <Button
+          style = {{margin: 50, backgroundColor: 'black', color:'white'}}
+          onPress = {this.upAppId}
+          label= "heyyyyy"
+        />
       </View>
     );
   }
